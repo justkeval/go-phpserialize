@@ -7,6 +7,13 @@ data format. The public API mirrors the standard library's `encoding/json`.
 import "phpserialize"
 ```
 
+## Goals
+
+- Familiar API and Developer Experience as `encoding/json` with `Marshal()`/`Unmarshal()`.
+- Decoding semantics and flexibility of `encoding/json` (e.g. struct tags, zero value for missing fields, unknown fields ignored). This was the main motivation for creating this lib as I lacked this from other libs.
+- Be as close to performance as `encoding/json`. The `benchmark_test.go` file contains simple benchmarking code for comparison against encoding json, we can add more variation in the benchmark itself also.
+- Correctness and edge case handling. Need to handle every case of semantic differences between types of php and go.
+
 ## Design
 
 The package is split into four independent layers that communicate only through a
