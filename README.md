@@ -4,7 +4,7 @@ A Go library for serializing and deserializing the PHP `serialize()` / `unserial
 data format. The public API mirrors the standard library's `encoding/json`.
 
 ```go
-import "phpserialize"
+import "github.com/justkeval/go-phpserialize"
 ```
 
 ## Goals
