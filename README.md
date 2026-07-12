@@ -3,8 +3,49 @@
 A Go library for serializing and deserializing the PHP `serialize()` / `unserialize()`
 data format. The public API mirrors the standard library's `encoding/json`.
 
+Example:
 ```go
-import "github.com/justkeval/go-phpserialize"
+package main
+
+import (
+	"fmt"
+
+	"github.com/justkeval/go-phpserialize"
+)
+
+func main() {
+	ser, err := phpserialize.Marshal(map[string]any{
+		"test":   "value",
+		"field2": []int{1, 2, 3, 4, 10},
+		"third":  1290,
+		"yon":    127.012,
+		"nested": map[int]any{
+			1: "hell yeah",
+			16: struct {
+				Field string `php:"tag_field"`
+			}{Field: "struct field"},
+		},
+		"ignored": "ignored lmao",
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Serialized:", string(ser))
+
+	var unser struct {
+		Test               string  `php:"test"`
+		Field2             []int   `php:"field2"`
+		DifferentFieldName uint    `php:"third"`
+		Yon                float32 `php:"yon"`
+		MissingField       int
+		Nested             map[int]any `php:"nested"`
+	}
+	err = phpserialize.Unmarshal(ser, &unser)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Unserilized: %#v", unser)
+}
 ```
 
 ## Goals
